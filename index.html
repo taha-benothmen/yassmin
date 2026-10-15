@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For Yassmine</title>
+<style>html{color-scheme:dark}body{margin:0}img{max-width:100%}</style>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Jost:wght@400;500&display=swap">
+<style>
+  /* Layout: one centred column at dusk. Name, one short line, then a little man to tap who hands over flowers. Petals drift behind. */
+  /* Single deliberate look: a night garden, so one dark palette on every viewer theme. */
+  :root {
+    --bg: #1a1024;
+    --bg-2: #2b1840;
+    --ink: #fbeef3;
+    --ink-soft: #d9c4d3;
+    --rose: #ff7aa2;
+    --petal: #ff9fb8;
+    --blush: #ffd9e3;
+    --lilac: #c9a7ff;
+    --gold: #ffd27a;
+    --leaf: #4fae83;
+    --stem: #5fbf90;
+    --wrap: #3a2552;
+    --line: rgba(255, 217, 227, 0.22);
+    --card: rgba(255, 255, 255, 0.06);
+    --skin: #e3b08a;
+    --skin-shade: #c98f68;
+    --hair: #25171f;
+    --jacket: #5a3a85;
+    --jacket-dark: #4a2e72;
+    --pants: #3f3270;
+    --shoe: #120819;
+    --f-display: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+    --f-body: 'Jost', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(60rem 28rem at 15% -5%, rgba(255, 122, 162, 0.22), transparent 70%),
+      radial-gradient(50rem 30rem at 100% 100%, rgba(201, 167, 255, 0.18), transparent 70%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+    background-repeat: no-repeat;
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    min-height: 100%;
+    padding-block: 2.5rem 3.5rem;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  #petals {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 34rem;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 0;
+  }
+
+  .eyebrow {
+    margin: 0;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--petal);
+  }
+
+  h1 {
+    margin: 0;
+    font-family: var(--f-display);
+    font-weight: 500;
+    font-size: clamp(2.7rem, 12vw, 4.6rem);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  h1 em { color: var(--rose); font-style: italic; }
+
+  .letter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.4rem 1.35rem 1.3rem;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--card);
+    min-width: 0;
+  }
+  .letter p { margin: 0; overflow-wrap: anywhere; }
+  .stamp {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  .line {
+    font-family: var(--f-display);
+    font-size: clamp(1.6rem, 6.5vw, 2.1rem);
+    line-height: 1.25;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .sign {
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    color: var(--blush);
+  }
+
+  .stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 0.5rem;
+  }
+
+  .man {
+    display: block;
+    width: min(100%, 24rem);
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .man:focus-visible { outline: 3px solid var(--blush); outline-offset: 4px; border-radius: 12px; }
+  .scene { width: 100%; height: auto; display: block; overflow: visible; }
+
+  .hint, .reply {
+    margin: 0;
+    text-align: center;
+    text-wrap: balance;
+  }
+  .hint {
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--petal);
+    animation: nudge 2s ease-in-out infinite;
+  }
+  .reply {
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: 1.6rem;
+    line-height: 1.35;
+    color: var(--blush);
+  }
+
+  /* The man and the flowers */
+  .skin { fill: var(--skin); }
+  .skin-shade { fill: var(--skin-shade); }
+  .hair { fill: var(--hair); }
+  .jacket { fill: var(--jacket); }
+  .sleeve { fill: none; stroke: var(--jacket-dark); stroke-width: 24; stroke-linecap: round; }
+  .pants { fill: var(--pants); }
+  .shoe { fill: var(--shoe); }
+  .shirt { fill: var(--blush); }
+  .face-line { fill: none; stroke: var(--hair); stroke-width: 3; stroke-linecap: round; }
+  .eye { fill: var(--hair); }
+  .cheek { fill: var(--rose); fill-opacity: 0.4; }
+  .happy .m-sad { display: none; }
+  .m-happy { display: none; }
+  .happy .m-happy { display: inline; }
+
+  .glow { fill: var(--rose); fill-opacity: 0.12; transform-origin: 200px 230px; animation: pulse 2.8s ease-in-out infinite; }
+  .go .glow { animation: none; }
+
+  .armR { transform-origin: 242px 192px; }
+  .go .armR { animation: reach 3.2s ease-in-out forwards; }
+
+  .gift { transform: translate(334px, 176px) scale(0); }
+  .go .gift { transform: translate(200px, 350px) scale(1.5); animation: give 3.2s forwards; }
+
+  .stem {
+    fill: none;
+    stroke: var(--stem);
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    animation: draw 1.1s ease-out var(--d, 0s) backwards;
+  }
+  .bl {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: bloom 1.1s cubic-bezier(0.2, 1.3, 0.4, 1) var(--d, 0s) backwards;
+  }
+
+  .rise { animation: rise 0.9s ease-out var(--d, 0s) backwards; }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+  @keyframes draw { from { stroke-dashoffset: 1; } }
+  @keyframes bloom { from { transform: scale(0) rotate(-50deg); } }
+  @keyframes pulse { 50% { transform: scale(1.07); fill-opacity: 0.2; } }
+  @keyframes nudge { 50% { transform: translateY(-4px); } }
+  @keyframes reach {
+    0% { transform: rotate(0deg); }
+    14%, 50% { transform: rotate(-100deg); }
+    78%, 100% { transform: rotate(0deg); }
+  }
+  @keyframes give {
+    0%, 10% { transform: translate(334px, 176px) scale(0) rotate(20deg); animation-timing-function: cubic-bezier(0.2, 1.5, 0.4, 1); }
+    24%, 42% { transform: translate(334px, 176px) scale(0.62) rotate(20deg); animation-timing-function: cubic-bezier(0.45, 0, 0.2, 1); }
+    80%, 100% { transform: translate(200px, 350px) scale(1.5) rotate(0deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+
+</head>
+<body>
+<canvas id="petals" aria-hidden="true"></canvas>
+
+<main class="wrap">
+  <p class="eyebrow rise">For Yassmine Missaoui</p>
+  <h1 class="rise" style="--d:.1s">I'm sorry,<br><em>Yassmine.</em></h1>
+
+  <article class="letter rise" style="--d:.35s">
+    <p class="stamp">Written tonight · 15.10.2026</p>
+    <p class="line">I didn't mean that.</p>
+    <p class="sign">— Taha</p>
+  </article>
+
+  <section class="stage rise" style="--d:.6s" aria-label="Flowers for Yassmine">
+    <button id="man" class="man" type="button" aria-label="Tap to get your flowers">
+      <svg id="scene" class="scene" viewBox="0 0 400 420" role="img" aria-label="A man who looks sorry, ready to hand you flowers">
+        <defs>
+          <symbol id="bloom" viewBox="-50 -50 100 100">
+            <g fill="currentColor">
+              <ellipse cx="0" cy="-26" rx="12" ry="24" transform="rotate(0)"/>
+              <ellipse cx="0" cy="-26" rx="12" ry="24" transform="rotate(45)"/>
+              <ellipse cx="0" cy="-26" rx="12" ry="24" transform="rotate(90)"/>
+              <ellipse cx="0" cy="-26" rx="12" ry="24" transform="rotate(135)"/>
+              <ellipse cx="0" cy="-26" rx="12" ry="24" transform="rotate(180)"/>
+              <ellipse cx="0" cy="-26" rx="12" ry="24" transform="rotate(225)"/>
+              <ellipse cx="0" cy="-26" rx="12" ry="24" transform="rotate(270)"/>
+              <ellipse cx="0" cy="-26" rx="12" ry="24" transform="rotate(315)"/>
+            </g>
+            <g fill="#ffffff" fill-opacity="0.3">
+              <ellipse cx="0" cy="-15" rx="7" ry="14" transform="rotate(22)"/>
+              <ellipse cx="0" cy="-15" rx="7" ry="14" transform="rotate(67)"/>
+              <ellipse cx="0" cy="-15" rx="7" ry="14" transform="rotate(112)"/>
+              <ellipse cx="0" cy="-15" rx="7" ry="14" transform="rotate(157)"/>
+              <ellipse cx="0" cy="-15" rx="7" ry="14" transform="rotate(202)"/>
+              <ellipse cx="0" cy="-15" rx="7" ry="14" transform="rotate(247)"/>
+              <ellipse cx="0" cy="-15" rx="7" ry="14" transform="rotate(292)"/>
+              <ellipse cx="0" cy="-15" rx="7" ry="14" transform="rotate(337)"/>
+            </g>
+            <circle r="9" style="fill:var(--gold)"/>
+          </symbol>
+        </defs>
+
+        <circle class="glow" cx="200" cy="230" r="165"/>
+
+        <!-- garden at his feet -->
+        <path class="stem" pathLength="1" style="--d:.7s" d="M58 414 C58 384 56 362 58 340"/>
+        <path class="stem" pathLength="1" style="--d:.9s" d="M104 414 C104 394 102 378 104 360"/>
+        <path class="stem" pathLength="1" style="--d:1s" d="M298 414 C298 390 300 370 298 350"/>
+        <path class="stem" pathLength="1" style="--d:1.2s" d="M346 414 C346 382 348 356 346 334"/>
+        <g class="bl" style="--d:1.7s"><use href="#bloom" x="36" y="318" width="44" height="44" style="color:#ff9fb8"/></g>
+        <g class="bl" style="--d:1.9s"><use href="#bloom" x="87" y="343" width="34" height="34" style="color:#c9a7ff"/></g>
+        <g class="bl" style="--d:2s"><use href="#bloom" x="279" y="331" width="38" height="38" style="color:#c9a7ff"/></g>
+        <g class="bl" style="--d:2.2s"><use href="#bloom" x="323" y="311" width="46" height="46" style="color:#ffd9e3"/></g>
+
+        <!-- the man -->
+        <ellipse cx="200" cy="402" rx="74" ry="9" fill="#000000" fill-opacity="0.35"/>
+        <rect class="pants" x="168" y="285" width="26" height="108" rx="10"/>
+        <rect class="pants" x="206" y="285" width="26" height="108" rx="10"/>
+        <ellipse class="shoe" cx="178" cy="396" rx="19" ry="8"/>
+        <ellipse class="shoe" cx="222" cy="396" rx="19" ry="8"/>
+        <rect class="jacket" x="148" y="168" width="104" height="132" rx="34"/>
+        <polygon class="shirt" points="184,170 216,170 200,216"/>
+
+        <path class="sleeve" d="M158 192 C142 222 142 252 148 278"/>
+        <circle class="skin" cx="148" cy="288" r="12"/>
+
+        <g class="armR">
+          <path class="sleeve" d="M242 192 C258 222 258 252 252 278"/>
+          <circle class="skin" cx="252" cy="288" r="12"/>
+        </g>
+
+        <rect class="skin-shade" x="188" y="150" width="24" height="26"/>
+        <circle class="skin" cx="156" cy="124" r="7"/>
+        <circle class="skin" cx="244" cy="124" r="7"/>
+        <circle class="skin" cx="200" cy="120" r="44"/>
+        <path class="hair" d="M156 118 C152 78 190 64 214 70 C242 76 252 98 244 120 C236 100 214 92 190 98 C174 102 162 110 156 118 Z"/>
+        <circle class="eye" cx="184" cy="126" r="3.6"/>
+        <circle class="eye" cx="216" cy="126" r="3.6"/>
+
+        <g class="m-sad">
+          <path class="face-line" d="M172 116 L194 108"/>
+          <path class="face-line" d="M228 116 L206 108"/>
+          <path class="face-line" d="M188 150 Q200 143 212 150"/>
+        </g>
+        <g class="m-happy">
+          <path class="face-line" d="M173 112 Q184 105 195 109"/>
+          <path class="face-line" d="M227 112 Q216 105 205 109"/>
+          <path class="face-line" d="M186 144 Q200 160 214 144"/>
+          <circle class="cheek" cx="176" cy="142" r="7"/>
+          <circle class="cheek" cx="224" cy="142" r="7"/>
+        </g>
+
+        <!-- the bouquet: drawn around its own base point, then moved by CSS -->
+        <g class="gift">
+          <path d="M-22 0 L22 0 L34 -46 L-34 -46 Z" style="fill:var(--wrap);stroke:var(--line);stroke-width:1.5"/>
+          <path d="M-8 -46 C-10 -58 -14 -64 -20 -70 M0 -46 L0 -76 M8 -46 C10 -58 14 -64 22 -72" style="fill:none;stroke:var(--stem);stroke-width:3;stroke-linecap:round"/>
+          <rect x="-14" y="-26" width="28" height="8" rx="2" style="fill:var(--rose)"/>
+          <use href="#bloom" x="-43" y="-87" width="34" height="34" style="color:#c9a7ff"/>
+          <use href="#bloom" x="9" y="-89" width="34" height="34" style="color:#ffd9e3"/>
+          <use href="#bloom" x="-23" y="-109" width="46" height="46" style="color:#ff7aa2"/>
+        </g>
+      </svg>
+    </button>
+
+    <p id="hint" class="hint">Tap him. He has something for you.</p>
+    <p id="reply" class="reply" aria-live="polite" hidden>These are for you, Yassmine.</p>
+  </section>
+</main>
+
+<script>
+(function () {
+  var cv = document.getElementById('petals');
+  var ctx = cv.getContext('2d');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var colors = ['#ff9fb8', '#ff7aa2', '#ffd9e3', '#ffb7c9', '#d7b8ff'];
+  var w = 0, h = 0, dpr = 1, petals = [], raf = 0, last = 0;
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth;
+    h = window.innerHeight;
+    cv.width = Math.round(w * dpr);
+    cv.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (reduce) draw();
+  }
+
+  function make(x, y, burst) {
+    return {
+      x: x, y: y,
+      s: 6 + Math.random() * 9,
+      rot: Math.random() * 6.28,
+      vr: (Math.random() - 0.5) * 1.6,
+      flip: Math.random() * 6.28,
+      vf: 1 + Math.random() * 2,
+      vx: burst ? (Math.random() - 0.5) * 420 : (Math.random() - 0.5) * 20,
+      vy: burst ? -240 - Math.random() * 280 : 18 + Math.random() * 30,
+      drift: 24 + Math.random() * 34,
+      sway: Math.random() * 6.28,
+      sf: 0.6 + Math.random() * 0.9,
+      c: colors[(Math.random() * colors.length) | 0],
+      a: 0.5 + Math.random() * 0.4,
+      burst: !!burst
+    };
+  }
+
+  function seed() {
+    var n = Math.max(18, Math.min(34, Math.round(w / 16)));
+    petals = [];
+    for (var i = 0; i < n; i++) petals.push(make(Math.random() * w, Math.random() * h, false));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    for (var i = 0; i < petals.length; i++) {
+      var p = petals[i];
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.scale(Math.max(0.25, Math.abs(Math.cos(p.flip))), 1);
+      ctx.globalAlpha = p.a;
+      ctx.fillStyle = p.c;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, p.s * 0.5, p.s, 0, 0, 6.2832);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  function step(t) {
+    var dt = Math.min(0.05, (t - last) / 1000 || 0.016);
+    last = t;
+    for (var i = petals.length - 1; i >= 0; i--) {
+      var p = petals[i];
+      var k = Math.min(1, 2.2 * dt);
+      p.vy += (p.drift - p.vy) * k;
+      p.vx += (0 - p.vx) * k;
+      p.sway += p.sf * dt;
+      p.x += (p.vx + Math.sin(p.sway) * 22) * dt;
+      p.y += p.vy * dt;
+      p.rot += p.vr * dt;
+      p.flip += p.vf * dt;
+      if (p.y > h + 30 || p.x < -40 || p.x > w + 40) {
+        if (p.burst) { petals.splice(i, 1); }
+        else { p.y = -20; p.x = Math.random() * w; }
+      }
+    }
+    draw();
+    raf = requestAnimationFrame(step);
+  }
+
+  function start() {
+    if (reduce || raf) return;
+    last = performance.now();
+    raf = requestAnimationFrame(step);
+  }
+  function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+
+  function burstAt(x, y, n) {
+    for (var i = 0; i < n; i++) petals.push(make(x + (Math.random() - 0.5) * 120, y, true));
+    if (reduce) draw();
+  }
+
+  resize();
+  seed();
+  if (reduce) draw(); else start();
+  window.addEventListener('resize', resize);
+  document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+
+  var man = document.getElementById('man');
+  var scene = document.getElementById('scene');
+  var hint = document.getElementById('hint');
+  var reply = document.getElementById('reply');
+  var running = false;
+
+  man.addEventListener('click', function () {
+    if (running) return;
+    running = true;
+    scene.classList.remove('go');
+    void scene.getBoundingClientRect();
+    scene.classList.add('go');
+
+    setTimeout(function () { scene.classList.add('happy'); }, 1400);
+    setTimeout(function () {
+      var r = scene.getBoundingClientRect();
+      burstAt(r.left + r.width * 0.5, r.top + r.height * 0.7, 56);
+      hint.hidden = true;
+      reply.hidden = false;
+    }, 2500);
+    setTimeout(function () { running = false; }, 3300);
+  });
+})();
+</script>
+</body>
+</html>
